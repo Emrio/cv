@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "incremental": true,
+    "target": "es2022",
+    "allowJs": false,
+    "removeComments": true,
+    "strict": true,
+    "noEmitOnError": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": false,
+    "downlevelIteration": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strictPropertyInitialization": false,
+    "declaration": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
+    "resolveJsonModule": true,
+    "lib": ["es2020"],
+    "outDir": "./build",
+    "baseUrl": "./",
+    "paths": {}
+  }
+}
