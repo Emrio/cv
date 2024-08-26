@@ -14,33 +14,36 @@ app.use(helmet())
 
 app.all('*', async (req, res) => {
   try {
-    const userLanguages = req.acceptsLanguages()
-
     const assets = await getAssets()
 
+    const pathLanguage = req.path.split('/').at(1)
+    if (pathLanguage && pathLanguage in assets) {
+      return serveFile(pathLanguage)
+    }
+
+    const userLanguages = req.acceptsLanguages()
     for (const userLanguage of userLanguages) {
       const language = userLanguage.split('-').at(0)
 
       if (language && language in assets) {
-        return res.sendFile(assets[language], {
-          headers: {
-            'Content-Language': language,
-            'Content-Disposition': `inline; filename="${FILENAME}"`
-          }
-        })
+        return serveFile(language)
       }
     }
 
     if (DEFAULT_LANGUAGE && DEFAULT_LANGUAGE in assets) {
-      return res.sendFile(assets[DEFAULT_LANGUAGE], {
+      return serveFile(DEFAULT_LANGUAGE)
+    }
+
+    res.status(404).end('No assets found :(')
+
+    function serveFile(language: string) {
+      res.sendFile(assets[language], {
         headers: {
-          'Content-Language': DEFAULT_LANGUAGE,
+          'Content-Language': language,
           'Content-Disposition': `inline; filename="${FILENAME}"`
         }
       })
     }
-
-    res.status(404).end('No assets found :(')
   } catch (error) {
     console.error(error)
     res.status(500).end('Internal server error')
